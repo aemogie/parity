@@ -7,10 +7,10 @@ edition = "2021"
 
 [[bin]]
 name = "bfi"
-path = "src/bfi.rs"
+path = "bfi/main.rs"
 
 [[bin]]
 name = "arithpost"
-path = "src/arithpost.rs"
+path = "arithpost/main.rs"
 
 [dependencies]
