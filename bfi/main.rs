@@ -1,7 +1,7 @@
 use core::str::Chars;
 use std::io::{stdin, stdout, Read, Write};
 
-use crossterm::{cursor::MoveToColumn, ExecutableCommand};
+use crossterm::{cursor::MoveToColumn, terminal, ExecutableCommand};
 
 enum BFCommand {
     MovR(usize),
@@ -69,7 +69,7 @@ fn parse(chars: Chars<'_>) -> Vec<BFCommand> {
 }
 
 fn run(cmds: &Vec<BFCommand>) {
-    crossterm::terminal::enable_raw_mode().unwrap();
+    terminal::enable_raw_mode().unwrap();
     let mut stdout = stdout();
     stdout.execute(MoveToColumn(0)).unwrap();
     stdout.flush().unwrap();
@@ -100,7 +100,7 @@ fn run(cmds: &Vec<BFCommand>) {
         stdout.flush().unwrap();
         i += 1;
     }
-    crossterm::terminal::disable_raw_mode().unwrap();
+    terminal::disable_raw_mode().unwrap();
 }
 
 fn main() {
