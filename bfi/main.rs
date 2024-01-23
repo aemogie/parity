@@ -66,7 +66,7 @@ fn parse(chars: Chars<'_>) -> Vec<BFCommand> {
 }
 
 fn run(cmds: &Vec<BFCommand>) {
-    let mut mem = [0_u8; 8];
+    let mut mem = [0_u8; 30_000];
     let mut head = 0;
     let mut i = 0;
     while i < cmds.len() {
@@ -94,8 +94,5 @@ fn run(cmds: &Vec<BFCommand>) {
 }
 
 fn main() {
-    let a = parse((include_str!("hello_world.bf")).chars());
-    run(&a);
-    let b = parse((include_str!("hello_world.min.bf")).chars());
-    run(&b);
+    run(&parse((include_str!("hello_world.bf")).chars()));
 }
