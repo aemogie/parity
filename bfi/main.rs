@@ -3,8 +3,8 @@ use std::str::Chars;
 enum BFCommand {
     MovR((usize,)),
     MovL((usize,)),
-    Add((usize,)),
-    Sub((usize,)),
+    Add((u8,)),
+    Sub((u8,)),
     Out,
     In,
     Jz((usize,)),
@@ -74,8 +74,8 @@ fn run(cmds: &Vec<BFCommand>) {
         match *cmds.get(i).unwrap() {
             C::MovR((cells,)) => head += cells,
             C::MovL((cells,)) => head -= cells,
-            C::Add((size,)) => mem[head] += size as u8,
-            C::Sub((size,)) => mem[head] -= size as u8,
+            C::Add((size,)) => mem[head] += size,
+            C::Sub((size,)) => mem[head] -= size,
             C::Out => print!("{}", mem[head] as char),
             C::In => todo!(),
             C::Jz((jmp,)) => {
