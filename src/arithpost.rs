@@ -7,18 +7,16 @@ fn main() {
     println!("{}", eval_stack(&mut args));
 }
 
-#[allow(dead_code)]
-fn eval_rec(tokens: &mut impl Iterator<Item = String>) -> i32 {
+fn _eval_rec(tokens: &mut impl Iterator<Item = String>) -> i32 {
     match tokens.next().unwrap().as_str() {
-        "+" => eval_rec(tokens) + eval_rec(tokens),
-        "-" => eval_rec(tokens) - eval_rec(tokens),
-        "*" => eval_rec(tokens) * eval_rec(tokens),
-        "/" => eval_rec(tokens) / eval_rec(tokens),
+        "+" => _eval_rec(tokens) + _eval_rec(tokens),
+        "-" => _eval_rec(tokens) - _eval_rec(tokens),
+        "*" => _eval_rec(tokens) * _eval_rec(tokens),
+        "/" => _eval_rec(tokens) / _eval_rec(tokens),
         x => x.parse::<i32>().unwrap(),
     }
 }
 
-#[allow(dead_code)]
 fn eval_stack(tokens: &mut impl DoubleEndedIterator<Item = String>) -> i32 {
     let mut nums = vec![];
     for t in tokens.rev() {
@@ -36,7 +34,6 @@ fn eval_stack(tokens: &mut impl DoubleEndedIterator<Item = String>) -> i32 {
             }
             x => nums.push(x.parse::<i32>().unwrap()),
         }
-        println!("{:?}", &nums);
     }
     nums.pop().unwrap()
 }
