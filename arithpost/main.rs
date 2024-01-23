@@ -1,10 +1,8 @@
 use std::env;
 
 fn main() {
-    let binding: Vec<String> = env::args().skip(1).collect::<Vec<_>>();
-    let mut args = binding.into_iter();
     // let mut expr = "- + 4 + 2 3 4".split_whitespace();
-    println!("{}", eval_stack(&mut args));
+    println!("{}", eval_stack(&mut env::args().skip(1)));
 }
 
 fn _eval_rec(tokens: &mut impl Iterator<Item = String>) -> i32 {
