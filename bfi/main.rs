@@ -18,36 +18,21 @@ fn parse(chars: Chars<'_>) -> Vec<BFCommand> {
     let mut out = vec![];
     let mut jumps = vec![];
     for ch in chars {
+        macro_rules! fold_repeated {
+            ($variant:path) => {
+                if let Some($variant(count)) = out.last_mut() {
+                    *count += 1;
+                } else {
+                    out.push($variant(1));
+                }
+            };
+        }
         use BFCommand as C;
         match ch {
-            '>' => {
-                if let Some(C::MovR(v)) = out.last_mut() {
-                    *v += 1;
-                } else {
-                    out.push(C::MovR(1));
-                }
-            }
-            '<' => {
-                if let Some(C::MovL(v)) = out.last_mut() {
-                    *v += 1;
-                } else {
-                    out.push(C::MovL(1));
-                }
-            }
-            '+' => {
-                if let Some(C::Add(v)) = out.last_mut() {
-                    *v += 1;
-                } else {
-                    out.push(C::Add(1));
-                }
-            }
-            '-' => {
-                if let Some(C::Sub(v)) = out.last_mut() {
-                    *v += 1;
-                } else {
-                    out.push(C::Sub(1));
-                }
-            }
+            '>' => fold_repeated!(C::MovR),
+            '<' => fold_repeated!(C::MovL),
+            '+' => fold_repeated!(C::Add),
+            '-' => fold_repeated!(C::Sub),
             '.' => out.push(C::Out),
             ',' => out.push(C::In),
             '[' => {
@@ -74,7 +59,7 @@ fn run(cmds: &Vec<BFCommand>) {
     stdout.execute(MoveToColumn(0)).unwrap();
     stdout.flush().unwrap();
     let mut stdin = stdin();
-    let mut mem = [0u8; 30_000];
+    let mut mem = [0u8; u16::MAX as usize];
     let mut head = 0;
     let mut i = 0;
     while i < cmds.len() {
